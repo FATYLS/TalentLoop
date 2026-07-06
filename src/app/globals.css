@@ -8,7 +8,16 @@
 }
 
 html { scroll-behavior: smooth; }
-body { font-family: "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; background: #fafafa; }
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #fafafa;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+.safe-top { padding-top: env(safe-area-inset-top, 0); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0); }
 
 /* ── DC Start landing design system ── */
 

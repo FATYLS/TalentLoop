@@ -119,7 +119,7 @@ export default function EntretienPage() {
   }
 
   return (
-    <div className="p-6 md:p-8 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-black text-black">Simulateur d&apos;entretien IA</h1>
         <p className="text-gray-500 mt-1 text-sm">Entraînez-vous avec des questions ciblées — audio intégré (TTS + micro).</p>
@@ -174,10 +174,10 @@ export default function EntretienPage() {
               rows={5}
               className="w-full mt-2 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#BF00FF] resize-none" />
 
-            <div className="flex flex-wrap gap-3 mt-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-4">
               {!isListening ? (
                 <button onClick={startListening}
-                  className="flex items-center gap-2 bg-black text-white font-bold px-5 py-2.5 rounded-full hover:bg-gray-800">
+                  className="flex items-center justify-center gap-2 bg-black text-white font-bold px-5 py-2.5 rounded-full hover:bg-gray-800 w-full sm:w-auto">
                   <Mic className="w-4 h-4" /> Répondre au micro
                 </button>
               ) : (
@@ -187,7 +187,7 @@ export default function EntretienPage() {
                 </button>
               )}
               <button onClick={handleSubmitAnswer} disabled={!answer.trim() || evaluating}
-                className="flex items-center gap-2 bg-gradient-to-r from-[#BF00FF] to-[#14B8A6] text-white font-bold px-5 py-2.5 rounded-full disabled:opacity-40">
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#BF00FF] to-[#14B8A6] text-white font-bold px-5 py-2.5 rounded-full disabled:opacity-40 w-full sm:w-auto">
                 {evaluating ? <><Loader2 className="w-4 h-4 animate-spin" /> Analyse...</> : <><Send className="w-4 h-4" /> Envoyer la réponse</>}
               </button>
             </div>

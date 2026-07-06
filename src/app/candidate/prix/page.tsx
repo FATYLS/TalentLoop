@@ -17,7 +17,7 @@ export default function CandidatePrixPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 max-w-6xl mx-auto">
       <div className="bg-gradient-to-r from-[#BF00FF] to-[#9900CC] rounded-2xl px-6 py-4 text-white text-center mb-8">
         <p className="text-sm font-bold">⚡ OFFRE DE LANCEMENT — 1000 crédits offerts (~5 candidatures)</p>
         <p className="text-xs opacity-90 mt-1">Sans carte bancaire · Annulation en 1 clic</p>

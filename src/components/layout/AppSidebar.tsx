@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutGrid, User, Search, CheckSquare, Send, CreditCard, Settings,
-  FileUp, LogOut, ChevronRight,
+  FileUp, LogOut, ChevronRight, Menu, X,
 } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { logout, getUser } from "@/lib/store";
@@ -17,25 +17,41 @@ const icons: Record<string, React.ElementType> = {
   send: Send, credits: CreditCard, settings: Settings,
 };
 
+const mobilePrimary = [
+  { href: "/dashboard", label: "Accueil", icon: LayoutGrid },
+  { href: "/candidate/recherche", label: "Candidatures", icon: Search },
+  { href: "/candidate/entretien", label: "Entretien", icon: Send },
+  { href: "/credits", label: "Crédits", icon: CreditCard },
+];
+
 export function AppSidebar() {
   const path = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<UserType | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     setUser(getUser());
   }, []);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [path]);
 
   const handleLogout = () => {
     logout();
     router.push("/connexion");
   };
 
-  return (
-    <aside className="fixed top-0 left-0 z-40 flex h-screen w-[260px] flex-col border-r border-gray-100 bg-white">
-      {/* Header */}
+  const sidebarContent = (
+    <>
       <div className="flex-shrink-0 p-5">
-        <Logo size="sm" />
+        <div className="flex items-center justify-between lg:block">
+          <Logo size="sm" />
+          <button type="button" className="lg:hidden p-2 -mr-2" onClick={() => setMobileOpen(false)} aria-label="Fermer">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
         <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3 py-1.5 text-[11px] font-semibold text-green-700">
           Gratuit · {user?.credits ?? 1000} crédits {brand.name}
         </div>
@@ -52,7 +68,6 @@ export function AppSidebar() {
         </Link>
       </div>
 
-      {/* Navigation scrollable */}
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-1">
         {appNav.map(item => {
           const Icon = icons[item.icon];
@@ -90,9 +105,8 @@ export function AppSidebar() {
         })}
       </nav>
 
-      {/* Footer fixe en bas — déconnexion toujours visible */}
       <div className="flex-shrink-0 border-t border-gray-100 bg-white p-4">
-        <div className="mb-3 flex flex-wrap gap-x-2 gap-y-1 text-[9px] text-gray-400">
+        <div className="mb-3 hidden sm:flex flex-wrap gap-x-2 gap-y-1 text-[9px] text-gray-400">
           <span>Confidentialité</span><span>·</span><span>CGU</span><span>·</span><span>Mentions légales</span>
         </div>
         {user && (
@@ -112,6 +126,47 @@ export function AppSidebar() {
           Déconnexion
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile header */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-white border-b border-gray-100 px-4 h-14 safe-top">
+        <Logo size="sm" />
+        <button type="button" onClick={() => setMobileOpen(true)} aria-label="Menu"
+          className="p-2 rounded-lg hover:bg-gray-100">
+          <Menu className="w-5 h-5" />
+        </button>
+      </header>
+
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 z-[55] bg-black/40" onClick={() => setMobileOpen(false)} />
+      )}
+
+      <aside className={`fixed top-0 left-0 z-[60] flex h-screen w-[min(100vw,280px)] flex-col border-r border-gray-100 bg-white transition-transform duration-300 lg:translate-x-0 lg:w-[260px] ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:flex`}>
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile bottom nav */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 safe-bottom flex justify-around">
+        {mobilePrimary.map(item => {
+          const Icon = item.icon;
+          const active = path === item.href || path.startsWith(item.href + "/");
+          return (
+            <Link key={item.href} href={item.href}
+              className={`flex flex-1 flex-col items-center justify-center gap-0.5 py-2 min-h-[56px] ${active ? "text-[#BF00FF]" : "text-gray-400"}`}>
+              <Icon className="w-5 h-5" />
+              <span className="text-[9px] font-bold">{item.label}</span>
+            </Link>
+          );
+        })}
+        <button type="button" onClick={() => setMobileOpen(true)}
+          className="flex flex-1 flex-col items-center justify-center gap-0.5 py-2 min-h-[56px] text-gray-400">
+          <Menu className="w-5 h-5" />
+          <span className="text-[9px] font-bold">Plus</span>
+        </button>
+      </nav>
+    </>
   );
 }

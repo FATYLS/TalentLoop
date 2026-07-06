@@ -107,22 +107,24 @@ export default function RecherchePage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 max-w-6xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-black text-black">Campagne de candidatures</h1>
         <p className="text-gray-500 mt-1 text-sm">Ciblez des entreprises ou répondez à une offre — l&apos;IA génère lettre et CV adaptés en temps réel.</p>
       </div>
 
-      <div className="flex gap-2 mb-8 bg-white rounded-2xl p-1.5 border border-gray-100 w-fit">
+      <div className="flex flex-col sm:flex-row gap-2 mb-8 bg-white rounded-2xl p-1.5 border border-gray-100 w-full sm:w-fit">
         {([
-          { id: "spontanee" as Tab, label: "Candidature spontanée", icon: MapPin },
-          { id: "offre" as Tab, label: "Répondre à une offre", icon: FileText },
+          { id: "spontanee" as Tab, label: "Candidature spontanée", short: "Spontanée", icon: MapPin },
+          { id: "offre" as Tab, label: "Répondre à une offre", short: "Offres", icon: FileText },
         ]).map(t => (
           <button key={t.id} onClick={() => { setTab(t.id); setShowResult(false); }}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${
+            className={`flex flex-1 sm:flex-initial items-center justify-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
               tab === t.id ? "bg-[#BF00FF] text-white shadow-md" : "text-gray-500 hover:text-black"
             }`}>
-            <t.icon className="w-4 h-4" /> {t.label}
+            <t.icon className="w-4 h-4 flex-shrink-0" />
+            <span className="sm:hidden">{t.short}</span>
+            <span className="hidden sm:inline">{t.label}</span>
           </button>
         ))}
       </div>
@@ -139,14 +141,14 @@ export default function RecherchePage() {
 
       {showResult && selectedJob && (
         <div ref={resultRef} className="mb-8 space-y-6 scroll-mt-8">
-          <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-5 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-4 sm:px-5 py-4">
             <CheckCircle2 className="w-6 h-6 text-green-600 flex-shrink-0" />
-            <div>
-              <p className="font-black text-green-800">Candidature générée pour {selectedJob.title} — {selectedJob.company}</p>
-              <p className="text-sm text-green-700">Lettre et CV adaptés par l&apos;IA en temps réel</p>
+            <div className="flex-1 min-w-0">
+              <p className="font-black text-green-800 text-sm sm:text-base">Candidature générée pour {selectedJob.title} — {selectedJob.company}</p>
+              <p className="text-xs sm:text-sm text-green-700">Lettre et CV adaptés par l&apos;IA en temps réel</p>
             </div>
             <Link href="/candidate/entretien"
-              className="ml-auto flex items-center gap-2 text-sm font-bold text-[#BF00FF] whitespace-nowrap hover:underline">
+              className="flex items-center justify-center gap-2 text-sm font-bold text-[#BF00FF] bg-white border border-[#BF00FF]/30 rounded-full px-4 py-2.5 sm:ml-auto whitespace-nowrap hover:bg-[#BF00FF]/5">
               Préparer l&apos;entretien <Mic className="w-4 h-4" />
             </Link>
           </div>
@@ -239,8 +241,8 @@ export default function RecherchePage() {
               </div>
               <div className="divide-y divide-gray-50">
                 {searchResults.slice(0, 8).map(p => (
-                  <div key={p.id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
-                    <div className="flex items-center gap-3">
+                  <div key={p.id} className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between hover:bg-gray-50">
+                    <div className="flex items-center gap-3 min-w-0">
                       <div className="w-10 h-10 rounded-xl bg-[#BF00FF]/10 flex items-center justify-center text-[#BF00FF] font-black text-sm">
                         {p.name[0]}
                       </div>
@@ -262,7 +264,7 @@ export default function RecherchePage() {
                         postedAt: new Date().toISOString().split("T")[0],
                       })}
                       disabled={applying}
-                      className="text-xs font-bold text-[#BF00FF] border border-[#BF00FF]/30 px-4 py-2 rounded-full hover:bg-[#BF00FF] hover:text-white transition-all disabled:opacity-50 min-w-[100px]">
+                      className="text-xs font-bold text-[#BF00FF] border border-[#BF00FF]/30 px-4 py-2.5 rounded-full hover:bg-[#BF00FF] hover:text-white transition-all disabled:opacity-50 w-full sm:w-auto text-center">
                       {applying && selectedJob?.company === p.name
                         ? <Loader2 className="w-4 h-4 animate-spin mx-auto" />
                         : "Candidater"}
@@ -282,12 +284,12 @@ export default function RecherchePage() {
               <Link2 className="w-5 h-5 text-[#BF00FF]" /> Importer une offre par URL
             </h2>
             <p className="text-sm text-gray-500 mt-1">Collez un lien LinkedIn, Indeed ou site carrière — l&apos;IA analyse et génère l&apos;offre.</p>
-            <div className="flex gap-3 mt-4">
+            <div className="flex flex-col sm:flex-row gap-3 mt-4">
               <input value={urlInput} onChange={e => setUrlInput(e.target.value)}
                 placeholder="https://www.linkedin.com/jobs/view/..."
-                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#BF00FF]" />
+                className="flex-1 min-w-0 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#BF00FF]" />
               <button onClick={handleUrlImport} disabled={urlLoading || !urlInput.trim()}
-                className="flex items-center gap-2 bg-black text-white font-bold px-5 py-3 rounded-xl disabled:opacity-40 whitespace-nowrap">
+                className="flex items-center justify-center gap-2 bg-black text-white font-bold px-5 py-3 rounded-xl disabled:opacity-40 whitespace-nowrap w-full sm:w-auto">
                 {urlLoading ? <><Loader2 className="w-4 h-4 animate-spin" /> Analyse...</> : "Importer"}
               </button>
             </div>

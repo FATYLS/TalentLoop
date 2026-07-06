@@ -17,7 +17,7 @@ export function HeroSection() {
         }} />
       </div>
 
-      <div className="relative flex-1 max-w-7xl mx-auto w-full px-4 pt-28 pb-16 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+      <div className="relative flex-1 max-w-7xl mx-auto w-full px-4 pt-20 sm:pt-28 pb-16 grid lg:grid-cols-2 gap-8 lg:gap-8 items-center">
         {/* Colonne gauche — texte */}
         <div>
           <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-8">
@@ -29,10 +29,10 @@ export function HeroSection() {
             <span className="text-[10px] font-bold text-[#00B67A]">Trustpilot</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl xl:text-6xl font-black text-white leading-[1.08] tracking-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl xl:text-6xl font-black text-white leading-[1.08] tracking-tight">
             {c.hero.title}
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-[#BF00FF] mt-5 leading-snug">
+          <p className="text-lg sm:text-xl md:text-2xl font-bold text-[#BF00FF] mt-4 sm:mt-5 leading-snug">
             {c.hero.subtitle}
           </p>
           <p className="text-gray-400 mt-6 text-base leading-relaxed max-w-lg">
@@ -58,8 +58,8 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Colonne droite — bento dashboard */}
-        <div className="relative hidden lg:block">
+        {/* Colonne droite — bento dashboard (tablette+) */}
+        <div className="relative hidden md:block">
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2 bg-white rounded-2xl p-5 shadow-2xl">
               <div className="flex items-center justify-between mb-4">

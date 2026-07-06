@@ -43,7 +43,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-[#f8f9fb]">
       <AppSidebar />
       {/* Contenu décalé à droite du menu fixe (260px) */}
-      <main className="min-h-screen w-full pl-[260px]">
+      <main className="min-h-screen w-full pt-14 pb-[72px] lg:pt-0 lg:pb-0 lg:pl-[260px]">
         <div className="min-h-screen w-full max-w-full">
           {children}
         </div>
